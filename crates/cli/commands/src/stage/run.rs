@@ -208,7 +208,7 @@ impl<C: ChainSpecParser<ChainSpec: EthChainSpec + Hardforks + EthereumHardforks>
 
                     let mut config = config;
                     config.peers.trusted_nodes_only = self.network.trusted_only;
-                    config.peers.trusted_nodes.extend(self.network.trusted_peers.clone());
+                    config.peers.trusted_nodes.extend(self.network.trusted_peers.iter().cloned());
 
                     let network_secret_path = self
                         .network
