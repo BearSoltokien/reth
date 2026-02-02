@@ -380,10 +380,12 @@ impl Command {
         indexed_paths.sort_by_key(|(idx, _)| *idx);
 
         // Apply skip and count
-        let indexed_paths: Vec<_> = indexed_paths.into_iter().skip(self.skip).collect();
-        let indexed_paths: Vec<_> = match self.count {
-            Some(count) => indexed_paths.into_iter().take(count).collect(),
-            None => indexed_paths,
+        let indexed_paths: Vec<_> = {
+            let iter = indexed_paths.into_iter().skip(self.skip);
+            match self.count {
+                Some(count) => iter.take(count).collect(),
+                None => iter.collect(),
+            }
         };
 
         // Load each payload
